@@ -1,6 +1,7 @@
 package com.example.ipldashboard.data;
 
 import com.example.ipldashboard.model.Team;
+import com.example.ipldashboard.repository.MatchRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.batch.core.BatchStatus;
@@ -20,10 +21,12 @@ public class JobCompletionNotificationListener extends JobExecutionListenerSuppo
     private static final Logger log = LoggerFactory.getLogger(JobCompletionNotificationListener.class);
 
     private final EntityManager entityManager;
+    private final MatchRepository matchRepository;
 
     @Autowired
-    public JobCompletionNotificationListener(EntityManager entityManager) {
+    public JobCompletionNotificationListener(EntityManager entityManager, MatchRepository matchRepository) {
         this.entityManager = entityManager;
+        this.matchRepository = matchRepository;
     }
 
     @Override
@@ -33,26 +36,25 @@ public class JobCompletionNotificationListener extends JobExecutionListenerSuppo
         if(jobExecution.getStatus() == BatchStatus.COMPLETED) {
             log.info("!!! JOB FINISHED! Time to verify the results");
 
-            entityManager.createQuery("select m.team1, count(*) from Match m group by m.team1", Object[].class)
-                    .getResultList()
-                    .stream()
-                    .map(e -> new Team((String) e[0], (long) e[1]))
-                    .forEach(team -> teamData.put(team.getTeamName(), team));
+            matchRepository.findAllTeam1Matches()
+            .stream()
+            .map(element -> new Team(element[0], Long.valueOf(element[1])))
+            .forEach(team -> teamData.put(team.getTeamName(), team));
 
-            entityManager.createQuery("select m.team2, count(*) from Match m group by m.team2", Object[].class)
-                    .getResultList()
-                    .forEach(element -> {
-                        Team team = teamData.get(element[0]);
-                        team.setTotalMatches(team.getTotalMatches() + (Long)element[1]);
-                    });
+
+            matchRepository.findAllTeam2Matches()
+            .forEach(element -> {
+                Team team = teamData.get(element[0]);
+                team.setTotalMatches(team.getTotalMatches() + Long.parseLong(element[1]));
+            });
 
             entityManager.createQuery("select m.matchWinner, count (*) from Match m group by m.matchWinner", Object[].class)
-                    .getResultList()
-                    .forEach(element -> {
-                        Team team = teamData.get(element[0]);
-                        if (team != null)
-                            team.setTotalWins((Long) element[1]);
-                    });
+                .getResultList()
+                .forEach(element -> {
+                    Team team = teamData.get(element[0]);
+                    if (team != null)
+                        team.setTotalWins((Long) element[1]);
+                });
 
             teamData.values()
                     .forEach(entityManager::persist);
