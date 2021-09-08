@@ -1,9 +1,9 @@
 import {React, useEffect, useState} from 'react';
 import {useParams} from 'react-router-dom';
-import MatchDetailCard from './../components/match-detail-card';
-import MatchSmallCard from './../components/match-small-card';
+import MatchDetailCard from '../../components/match-detail-card';
+import MatchSmallCard from '../../components/match-small-card';
 
-export const  TeamPage = () => {
+const TeamPage = () => {
 
     const [team, setTeam] = useState({matches: [{}]});
     const {teamName} = useParams();
@@ -27,10 +27,12 @@ export const  TeamPage = () => {
     return (
         <div className="team-page">
             <h1>{team.teamName}</h1>
-            <MatchDetailCard team={team}/>
+            <MatchDetailCard teamName={team.teamName} match={team.matches[0]}/>
             {team.matches.slice(1).map(match => <MatchSmallCard key={match.id} match={match} teamName={team.teamName}/>)}
         </div>
     );
 }
+
+export default TeamPage;
 
 
