@@ -1,9 +1,9 @@
 import {React} from 'react';
 
-const MatchSmallCard = () => {
+const MatchSmallCard = ({match}) => {
   return (
-	<div className="team-page">
-		<p>Match Small Card</p>
+	<div className="match-small-card">
+		<p>{match.team1} vs {match.team2}</p>
 	</div>
   );
 }
