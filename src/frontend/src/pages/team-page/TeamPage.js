@@ -1,5 +1,5 @@
 import {React, useEffect, useState} from 'react';
-import {useParams} from 'react-router-dom';
+import {useParams, Link} from 'react-router-dom';
 import MatchDetailCard from '../../components/match-detail-card';
 import MatchSmallCard from '../../components/match-small-card';
 import {PieChart} from 'react-minimal-pie-chart';
@@ -10,13 +10,15 @@ const TeamPage = () => {
 
     const [team, setTeam] = useState({matches: [{}]});
     const {teamName} = useParams();
+    const [moreYear, setMoreYear] = useState(0);
 
     useEffect(
         () => {
             const fetchMatches = async () => {
                 const response = await fetch(`http://localhost:9000/team/${teamName}`);
                 const data = await response.json();
-                setTeam(data);             
+                setTeam(data);    
+                setMoreYear(data.matches[0].date.split("-")[0]);     
             };
 
             fetchMatches();
@@ -48,7 +50,9 @@ const TeamPage = () => {
             </div>
             {team.matches.slice(1).map(match => <MatchSmallCard key={match.id} match={match} teamName={team.teamName}/>)}
             <div className="more-link">
-                <a href="#">More &#8594;</a>
+                <Link to={`/teams/${teamName}/matches/${moreYear}`}> 
+                    More &#8594;
+                </Link>
             </div>
         </div>
     );
