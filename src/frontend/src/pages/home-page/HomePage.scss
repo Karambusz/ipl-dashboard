@@ -1,0 +1,11 @@
+.home-page {
+    .app-name {
+        font-size: 4rem;
+        margin: 30px auto;
+    }
+    .team-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+    }
+}

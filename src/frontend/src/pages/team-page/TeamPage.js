@@ -14,14 +14,14 @@ const TeamPage = () => {
 
     useEffect(
         () => {
-            const fetchMatches = async () => {
+            const fetchTeams = async () => {
                 const response = await fetch(`http://localhost:9000/team/${teamName}`);
                 const data = await response.json();
                 setTeam(data);    
                 setMoreYear(data.matches[0].date.split("-")[0]);     
             };
 
-            fetchMatches();
+            fetchTeams();
         }, [teamName]
     );
 
@@ -32,7 +32,17 @@ const TeamPage = () => {
     return (
         <div className="team-page">
             <div className="team-name-section">
-                <h1 className="team-name">{team.teamName}</h1>
+                <div className="title-wrapper">
+                    <h1 className="title">
+                        <Link to="/">
+                            IPL Dashboard
+                        </Link>
+                    </h1>
+                </div>
+                <div className="team-name-wrapper">
+                    <h2 className="team-name">{team.teamName}</h2>
+                </div>
+                
             </div>
             <div className="win-loss-section">
                 Wins / Losses
