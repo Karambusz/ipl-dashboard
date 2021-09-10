@@ -32,16 +32,7 @@ const TeamPage = () => {
     return (
         <div className="team-page">
             <div className="team-name-section">
-                <div className="title-wrapper">
-                    <h1 className="title">
-                        <Link to="/">
-                            IPL Dashboard
-                        </Link>
-                    </h1>
-                </div>
-                <div className="team-name-wrapper">
-                    <h2 className="team-name">{team.teamName}</h2>
-                </div>           
+                <h2 className="team-name">{team.teamName}</h2>        
             </div>
             <CustomPieChart team={team}/>
             <MatchDetailCardContainer team={team}/>

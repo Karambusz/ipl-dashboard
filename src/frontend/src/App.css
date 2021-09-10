@@ -3,6 +3,10 @@
   text-align: left;
 }
 
+.App .title {
+  font-size: 4rem;
+}
+
 .won-card {
   background-color: #4da375;
 }

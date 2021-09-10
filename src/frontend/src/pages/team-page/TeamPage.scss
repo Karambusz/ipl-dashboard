@@ -5,14 +5,9 @@
     gap: 10px;
 
     .team-name-section {
-        display: grid;
-        grid-template-columns: 3fr;
-        grid-template-rows: 2.5fr 0.5fr;
         grid-column: span 3;
-
-        .title {
-            font-size: 4rem;
-        }
+        justify-self: start;
+        align-self: end;
 
         .team-name {
             font-size: 3rem;
@@ -21,7 +16,6 @@
 
     .win-loss-section {
         justify-self: center;
-        padding: 20px 0 0px 40px;
         text-align: center;
     }
 
