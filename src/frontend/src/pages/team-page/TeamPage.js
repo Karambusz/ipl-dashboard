@@ -15,7 +15,7 @@ const TeamPage = () => {
     useEffect(
         () => {
             const fetchTeams = async () => {
-                const response = await fetch(`http://localhost:9000/team/${teamName}`);
+                const response = await fetch(`${process.env.REACT_APP_API_ROOT_URL}/team/${teamName}`);
                 const data = await response.json();
                 setTeam(data);    
                 setMoreYear(data.matches[0].date.split("-")[0]);     
