@@ -1,4 +1,5 @@
 import {React, useEffect, useState} from 'react';
+import {Link} from 'react-router-dom';
 import TeamTile from '../../components/team-tile';
 import './HomePage.scss';
 
@@ -20,7 +21,11 @@ const HomePage = () => {
     return (
         <div className="home-page">
             <div className="header-section">
-                <h1 className="app-name">IPL Dashboard</h1>
+                <h1 className="app-name">
+                    <Link to="/">
+                        IPL Dashboard
+                    </Link>
+                </h1>
             </div>
             <div className="team-grid">
                 {

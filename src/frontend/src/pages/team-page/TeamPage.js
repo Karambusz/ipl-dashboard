@@ -1,10 +1,10 @@
 import {React, useEffect, useState} from 'react';
 import {useParams, Link} from 'react-router-dom';
-import MatchDetailCard from '../../components/match-detail-card';
 import MatchSmallCard from '../../components/match-small-card';
-import {PieChart} from 'react-minimal-pie-chart';
+import CustomPieChart from '../../components/custom-pie-chart';
 
 import './TeamPage.scss';
+import MatchDetailCardContainer from '../../components/match-detail-card-container';
 
 const TeamPage = () => {
 
@@ -41,23 +41,10 @@ const TeamPage = () => {
                 </div>
                 <div className="team-name-wrapper">
                     <h2 className="team-name">{team.teamName}</h2>
-                </div>
-                
+                </div>           
             </div>
-            <div className="win-loss-section">
-                Wins / Losses
-                <PieChart
-                    data = {[
-                        {title: 'Losses', value: team.totalMatches - team.totalWins, color: '#a34d5d'},
-                        {title: 'Wins', value: team.totalWins, color: '#4da375'}
-                        ]
-                    }
-                />
-            </div>
-            <div className="match-detail-section">
-                <h3>Latest Matches</h3>
-                <MatchDetailCard teamName={team.teamName} match={team.matches[0]}/>
-            </div>
+            <CustomPieChart team={team}/>
+            <MatchDetailCardContainer team={team}/>
             {team.matches.slice(1).map(match => <MatchSmallCard key={match.id} match={match} teamName={team.teamName}/>)}
             <div className="more-link">
                 <Link to={`/teams/${teamName}/matches/${moreYear}`}> 
